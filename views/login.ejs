@@ -3,23 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SignUp</title>
+  <title>Login</title>
+  <!-- Add Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 500px;
+      margin-top: 50px;
+    }
+    .form-group label {
+      font-weight: bold;
+    }
+    .submit {
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-  <h1>Login</h1>
-  <form action="/user/login" method="post">
-  
-    <div>
-      <label for="">email</label>
-      <input type="text" required name="email">
-    </div>
-    <div>
-      <label for="">Password</label>
-      <input type="text" required name="password">
-    </div>
-    <button class="submit">Login</button>
-     <a href="/signup">SignUp</a>
-  </form>
+  <div class="container">
+    <h1 class="text-center">Login</h1>
+    <form action="/user/login" method="post">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+      </div>
+      <button type="submit" class="btn btn-primary submit">Login</button>
+    </form>
+    <p class="text-center mt-3">Don't have an account? <a href="/signup">SignUp</a></p>
+  </div>
 
+  <!-- Add Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

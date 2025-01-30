@@ -33,4 +33,12 @@ router.get("/", restrictTo(['normal', 'admin']), async (req, res) => {
   });
 });
 
+router.get("/logout", (req, res) => {
+  // Clear the cookie (assuming cookie name is 'userToken')
+  res.clearCookie('token');
+  
+  // Redirect to the login page or homepage
+  return res.redirect('/login'); // Or redirect to '/'
+});
+
 module.exports = router;
