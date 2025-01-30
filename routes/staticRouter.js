@@ -27,11 +27,16 @@ router.get("/admin/urls", restrictTo(['admin']), async (req, res) => {
 // Home page for normal and admin users
 router.get("/", restrictTo(['normal', 'admin']), async (req, res) => {
   if (!req.user) return res.redirect('/login'); // Redirect to login if no user
+
   const allUrl = await URL.find({ createdBy: req.user._id });
+
   return res.render('home', {
-    urls: allUrl
+    urls: allUrl,
+    id: null, // Ensure 'id' is always defined to avoid ReferenceError
+    baseUrl: req.headers.host // Pass the base URL
   });
 });
+
 
 router.get("/logout", (req, res) => {
   // Clear the cookie (assuming cookie name is 'userToken')

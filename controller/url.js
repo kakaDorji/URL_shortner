@@ -1,25 +1,21 @@
 const shortid=require('shortid');
 const URL=require("../models/url");
 async function handleGenerateNewShortURL(req, res) {
-  const body = req.body;
-  if (!body.url) return res.status(400).json({ error: "URL is required" });
+  if (!req.body.url) return res.status(400).json({ error: "URL is required" });
 
-  const shortId = shortid(); // Create a new short ID
-  await URL.create({
-    shortId: shortId, // Store the generated short ID
-    redirectURL: body.url, // The URL to redirect to
-    visitHistory: [], // Initial empty visit history
-    createdBy: req.user._id, // The ID of the user creating this short URL
-  });
+  const shortId = shortid(), baseUrl = `${req.protocol}://${req.get('host')}`;
+  
+  // Save the new URL in the database
+  await URL.create({ shortId, redirectURL: req.body.url, visitHistory: [], createdBy: req.user._id });
 
-  const baseUrl = req.protocol + '://' + req.get('host'); // Get the base URL dynamically
+  // Fetch all URLs to pass to the view
+  const urls = await URL.find({ createdBy: req.user._id });
 
-  // Render the home template, passing shortId (as id) and the base URL
-  res.render("home", {
-    id: shortId,   // Pass shortId as 'id' to the template
-    baseUrl: baseUrl,  // Pass base URL to the template
-  });
+  // Render the view, passing the necessary data
+  res.render("home", { id: shortId, baseUrl, urls });
 }
+
+
 
 async function handleGetAnalytics(req,res){
 const shortId=req.params.shortId;
