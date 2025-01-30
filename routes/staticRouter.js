@@ -1,36 +1,36 @@
-const express=require("express");
-const router=express.Router();
-const URL=require("../models/url");
+const express = require("express");
+const router = express.Router();
+const URL = require("../models/url");
 const { restrictTo } = require("../middleware/auth");
 
-
-router.get("/admin/urls", restrictTo(['admin']),async (req, res) => {
-  if(!req.user) return res.redirect('/login');
-  const allUrl=await URL.find({});
-  return res.render('home',{
-    urls:allUrl
-  }); // Render home page with user's URLs
+// Render the login page if not logged in
+router.get("/login", (req, res) => {
+  if (req.user) return res.redirect('/'); // If already logged in, redirect to the home page
+  return res.render('login'); // Otherwise, show login page
 });
 
-
-
-router.get("/", restrictTo(['normal','admin']),async (req, res) => {
-  if(!req.user) return res.redirect('/login');
-  const allUrl=await URL.find({createdBy:req.user._id});
-  return res.render('home',{
-    urls:allUrl
-  }); // Render home page with user's URLs
-});
-
- 
-
-router.get("/signup",(req,res)=>{
+// Render signup page
+router.get("/signup", (req, res) => {
+  if (req.user) return res.redirect('/'); // If already logged in, redirect to home page
   return res.render('signup');
 });
-router.get("/login",(req,res)=>{
-  return res.render('login');
+
+// Admin routes - only accessible to admin users
+router.get("/admin/urls", restrictTo(['admin']), async (req, res) => {
+  if (!req.user) return res.redirect('/login'); // Redirect to login if no user
+  const allUrl = await URL.find({});
+  return res.render('home', {
+    urls: allUrl
+  });
 });
 
+// Home page for normal and admin users
+router.get("/", restrictTo(['normal', 'admin']), async (req, res) => {
+  if (!req.user) return res.redirect('/login'); // Redirect to login if no user
+  const allUrl = await URL.find({ createdBy: req.user._id });
+  return res.render('home', {
+    urls: allUrl
+  });
+});
 
-
-module.exports=router;
+module.exports = router;
