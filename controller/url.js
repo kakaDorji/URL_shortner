@@ -4,19 +4,20 @@ async function handleGenerateNewShortURL(req, res) {
   const body = req.body;
   if (!body.url) return res.status(400).json({ error: "URL is required" });
 
-  const shortId = shortid();
+  const shortId = shortid(); // Create a new short ID
   await URL.create({
-    shortId: shortId,
-    redirectURL: body.url,
-    visitHistory: [],
-    createdBy: req.user._id,
+    shortId: shortId, // Store the generated short ID
+    redirectURL: body.url, // The URL to redirect to
+    visitHistory: [], // Initial empty visit history
+    createdBy: req.user._id, // The ID of the user creating this short URL
   });
 
-  const baseUrl = req.protocol + '://' + req.get('host'); // Dynamically get base URL
+  const baseUrl = req.protocol + '://' + req.get('host'); // Get the base URL dynamically
 
+  // Render the home template, passing shortId (as id) and the base URL
   res.render("home", {
-    id: shortId,
-    baseUrl: baseUrl, // Pass the base URL to the template
+    id: shortId,   // Pass shortId as 'id' to the template
+    baseUrl: baseUrl,  // Pass base URL to the template
   });
 }
 

@@ -58,12 +58,17 @@
     <h1 class="text-center">URL Shortener</h1>
 
     <!-- URL generated -->
-    <% if (locals.id) { %>
-      <div class="alert alert-success">
-        <p>URL Generated: <a href="<%= req.protocol %>://<%= req.get('host') %>/<%= id %>" target="_blank"><%= req.protocol %>://<%= req.get('host') %>/<%= id %></a></p>
-
-      </div>
-    <% } %>
+ 
+      <% if (id) { %>
+        <div class="alert alert-success">
+          <p>URL Generated: 
+            <a href="<%= baseUrl %>/<%= id %>" target="_blank">
+              <%= baseUrl %>/<%= id %>
+            </a>
+          </p>
+        </div>
+      <% } %>
+  
 
     <!-- URL Shortening Form -->
     <form action="/url" method="post" class="mb-4">
