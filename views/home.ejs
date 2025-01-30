@@ -60,7 +60,8 @@
     <!-- URL generated -->
     <% if (locals.id) { %>
       <div class="alert alert-success">
-        <p>URL Generated: <a href="http://localhost:8000/<%= id %>" target="_blank">http://localhost:8000/<%= id %></a></p>
+        <p>URL Generated: <a href="<%= req.protocol %>://<%= req.get('host') %>/<%= id %>" target="_blank"><%= req.protocol %>://<%= req.get('host') %>/<%= id %></a></p>
+
       </div>
     <% } %>
 
