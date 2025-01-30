@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>home page</title>
+</head>
+<body>
+<h1>URL shortner</h1>
+<!-- data from the backend will be automatically stor in teh browser local storage -->
+ <% if(locals.id){ %>
+<p>
+  URL Generated:http://localhost:8000/<%= id  %>
+</p>
+  <%}%>
+<div>
+  <form action="/url" method="post">
+      <label for="">enter your Origial URL</label>
+      <input type="text" placeholder="http://www.google.com" name="url">
+    <button type="submit">submit</button>
+  </form>
+</div>
+<div>
+   <% if(locals.urls) {%>
+    <table>
+      <thead>
+         <th>s.No</th>
+         <th>shortId</th>
+         <th>Redirect</th>
+         <th>Clicks</th>
+      </thead>
+      <tbody>
+        <% urls.forEach((url,index) => { %>
+         <tr>
+          <td><%=index+1 %></td>
+          <td><%= url.shortId%></td>
+          <td><%= url.redirectURL%></td>
+          <td><%= url.visitHistory.length %></td>
+         </tr>
+
+       <% }) %>
+
+      </tbody>
+    </table>
+ 
+   <%}%>
+
+
+</div>
+
+
+
+</body>
+</html>
